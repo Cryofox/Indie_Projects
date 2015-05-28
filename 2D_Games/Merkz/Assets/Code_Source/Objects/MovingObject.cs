@@ -11,6 +11,7 @@ public class MovingObject
 	float curJumpForce=0;
 
 	bool usesGravity=true;
+
 	bool onLedge=false;
 	bool onWall=false;
 	bool onLadder=false;
@@ -18,7 +19,8 @@ public class MovingObject
 
 	//This value is used to prevent jump spam
 	bool isJumping= false;
-	// bool isOnLand=false;
+
+
 	public Vector2 position;
 	public GameObject go_Model;
 	Vector2 newPosition; 
@@ -54,7 +56,7 @@ public class MovingObject
 
 	void Correct_Position(float timeElapsed)
 	{
-
+		bool isOnLand=false;
 
 		//Using Both Corner Extremes perform Ground Collision
 		//Process Top Edges( Bottom Collision )
@@ -78,7 +80,7 @@ public class MovingObject
 
 				newPosition.y = Collision_Engine.RoundNum( newPosition.y, 2);	
 				isJumping=false; //Landed
-				// isOnLand=true;
+				isOnLand=true;
 				curJumpForce=-_GravityMod;
 			}
 			else if(collisionEdge_2.side!=Edge_Side.None)
@@ -94,44 +96,86 @@ public class MovingObject
 
 				newPosition.y = Collision_Engine.RoundNum( newPosition.y, 2);
 				isJumping=false; //Landed
-				// isOnLand=true;
+				isOnLand=true;
 				curJumpForce=-_GravityMod;	
 			}
 		//=========================
 
-		//If you're on the ground you aren't wallsliding, therefore basic checks occur. otherwise you are, so
-
-		//Process Left Edges  (Right Collision)
-		//-------------------------
-		collisionEdge = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.5f),newPosition + new Vector2(0.5f,0.5f),2);
-		collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(0.5f,0.9f),2);
-
-		if(collisionEdge.side!=Edge_Side.None)
-			Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
-
-
-		if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
+		//If you're on the ground you aren't wallsliding, therefore basic checks occur.
+		if(isOnLand)
 		{
-			newPosition.x = position.x;
+			//Process Left Edges  (Right Collision)
+			//-------------------------
+			collisionEdge = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.5f),newPosition + new Vector2(0.5f,0.5f),2);
+			collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(0.5f,0.9f),2);
+
+			if(collisionEdge.side!=Edge_Side.None)
+				Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
+
+
+			if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
+			{
+				newPosition.x = position.x;
+			}
+			//=========================
+
+
+			//Process Right Edges  (Left Collision)
+			//-------------------------
+			collisionEdge = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.5f),newPosition + new Vector2(-0.5f,0.5f),3);
+			collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(-0.5f,0.9f),3);
+
+			if(collisionEdge.side!=Edge_Side.None)
+				Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
+
+			if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
+			{
+				newPosition.x = position.x;
+			}
+			//=========================		
 		}
-		//=========================
-
-
-		//Process Right Edges  (Left Collision)
-		//-------------------------
-		collisionEdge = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.5f),newPosition + new Vector2(-0.5f,0.5f),3);
-		collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(-0.5f,0.9f),3);
-
-		if(collisionEdge.side!=Edge_Side.None)
-			Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
-
-		if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
+		//Otherwise we wall slide
+		else
 		{
-			newPosition.x = position.x;
+			//Process Left Edges  (Right Collision)
+			//-------------------------
+			collisionEdge = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.5f),newPosition + new Vector2(0.5f,0.5f),2);
+			collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(0.5f,0.9f),2);
+
+			if(collisionEdge.side!=Edge_Side.None)
+				Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
+
+
+			if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
+			{
+				newPosition.x = position.x;
+				//Apply Modified Gravity, whichever direction gravity was going in, half it.
+				float yDifference = newPosition.y - position.y;
+				yDifference /=2;
+				newPosition.y= position.y + yDifference;
+			}
+			//=========================
+
+
+			//Process Right Edges  (Left Collision)
+			//-------------------------
+			collisionEdge = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.5f),newPosition + new Vector2(-0.5f,0.5f),3);
+			collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(-0.5f,0.9f),3);
+
+			if(collisionEdge.side!=Edge_Side.None)
+				Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
+
+			if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
+			{
+				newPosition.x = position.x;
+				//Apply Modified Gravity, whichever direction gravity was going in, half it.
+				float yDifference = newPosition.y - position.y;
+				yDifference /=2;
+				newPosition.y= position.y + yDifference;
+			}
+			//=========================		
+
 		}
-		//=========================		
-
-
 
 	}
 
@@ -168,7 +212,6 @@ public class MovingObject
 			if(curJumpForce< -_GravityMod)
 				curJumpForce=-_GravityMod;
 			Debug.Log("curJumpForce="+curJumpForce);
-
 		}
 	}
 
