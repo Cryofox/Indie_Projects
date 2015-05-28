@@ -61,7 +61,7 @@ namespace MyCollision
 		{
 
 		}
-
+/*
 		public static List<Edge> Collision_Check_All(Vector2 center,Vector2 point)
 		{
 			List<Edge> interEdges= new List<Edge>();
@@ -136,7 +136,7 @@ namespace MyCollision
 				// UnityEngine.Debug.Log("NoCollision? C:"+center+"TPos:"+ point);
 			return interEdges;
 		}
-
+*/
 		//Mask 
 		/*
 		0= No Mask
@@ -146,6 +146,7 @@ namespace MyCollision
 		4= Bot Mask
 
 		*/
+/*
 		public static List<Edge> Collision_Check_FirstMultiDirect(Vector2 center,Vector2 point)
 		{
 
@@ -270,7 +271,7 @@ namespace MyCollision
 				// UnityEngine.Debug.Log("NoCollision? C:"+center+"TPos:"+ point);
 			return interEdges;
 		}
-
+*/
 		//0 = Top
 		//1 = Bot
 		//2 = Left
@@ -281,6 +282,7 @@ namespace MyCollision
 			Edge edge=new Edge();
 			edge.side=Edge_Side.None;
 			float last_E=500; //500 = Limit for Check
+			Vector2 intersect= Vector2.zero;
 			//Top
 			if(mask==0)
 			{
@@ -298,7 +300,7 @@ namespace MyCollision
 					Vector2 midpoint;
 					midpoint = (box.point_TL+box.point_TR)/2;
 					if(  Vector2.Distance(center, midpoint) <last_E )
-						if(LinesIntersect(point,center, box.point_TL, box.point_TR))
+						if(LinesIntersect(point,center, box.point_TL, box.point_TR,ref intersect))
 						{
 	
 							//Edge of interest
@@ -309,7 +311,7 @@ namespace MyCollision
 
 							edge=eoi;
 							Debug.DrawLine(center,point, Color.blue);	
-							last_E= Vector2.Distance(center,  midpoint);	
+							last_E= Vector2.Distance(center, intersect);	
 						}
 				}
 			}
@@ -330,7 +332,7 @@ namespace MyCollision
 					Vector2 midpoint;
 					midpoint = (box.point_BL+box.point_BR)/2;
 					if(  Vector2.Distance(center, midpoint) <last_E )
-						if(LinesIntersect(point,center, box.point_BL, box.point_BR))
+						if(LinesIntersect(point,center, box.point_BL, box.point_BR,ref intersect))
 						{
 	
 							//Edge of interest
@@ -341,7 +343,7 @@ namespace MyCollision
 
 							edge=eoi;
 							Debug.DrawLine(center,point, Color.green);	
-							last_E= Vector2.Distance(center,  midpoint);	
+							last_E= Vector2.Distance(center, intersect);	
 						}
 				}
 			}
@@ -362,7 +364,7 @@ namespace MyCollision
 					Vector2 midpoint;
 					midpoint = (box.point_TL+box.point_BL)/2;
 					if(  Vector2.Distance(center, midpoint) <last_E )
-						if(LinesIntersect(point,center, box.point_BL, box.point_TL))
+						if(LinesIntersect(point,center, box.point_BL, box.point_TL,ref intersect))
 						{
 	
 							//Edge of interest
@@ -373,7 +375,7 @@ namespace MyCollision
 
 							edge=eoi;
 							Debug.DrawLine(center,point, Color.red);	
-							last_E= Vector2.Distance(center,  midpoint);	
+							last_E= Vector2.Distance(center, intersect);	
 						}
 				}
 			}
@@ -394,7 +396,7 @@ namespace MyCollision
 					Vector2 midpoint;
 					midpoint = (box.point_TR+box.point_BR)/2;
 					if(  Vector2.Distance(center, midpoint) <last_E )
-						if(LinesIntersect(point,center, box.point_BR, box.point_TR))
+						if(LinesIntersect(point,center, box.point_BR, box.point_TR,ref intersect))
 						{
 	
 							//Edge of interest
@@ -405,7 +407,7 @@ namespace MyCollision
 
 							edge=eoi;
 							Debug.DrawLine(center,point, Color.cyan);	
-							last_E= Vector2.Distance(center,  midpoint);	
+							last_E= Vector2.Distance(center,  intersect);	
 						}
 				}
 			}
@@ -436,7 +438,7 @@ namespace MyCollision
 
 	    // Determines if the lines AB and CD intersect.
 		//http://ideone.com/PnPJgb
-		static bool LinesIntersect(Vector2 A, Vector2 B, Vector2 C,Vector2 D)
+		static bool LinesIntersect(Vector2 A, Vector2 B, Vector2 C,Vector2 D, ref Vector2 intersect)
 		{
 			Debug.DrawLine(A,B, Color.red);
 			// Debug.DrawLine(C,D, Color.blue);
@@ -468,6 +470,11 @@ namespace MyCollision
 
 	 		bool val= (t >= 0f) && (t <= 1f) && (u >= 0f) && (u <= 1f);
 	 		// UnityEngine.Debug.Log("E="+val);
+	 		if(val)
+	 		{
+	 			UnityEngine.Debug.Log("Intersect at:"+ (A.x+t*r.x)+","+(A.y+t*r.y));
+	 			intersect = new Vector2( (A.x+t*r.x),(A.y+t*r.y) );
+	 		}
 			return val;
 
 
