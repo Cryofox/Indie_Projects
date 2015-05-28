@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <entity id="0" name="entity_000">
+        <obj_info name="bone_000" type="bone" w="138" h="10"/>
+        <obj_info name="bone_001" type="bone" w="84.006" h="10"/>
+        <obj_info name="bone_002" type="bone" w="43.4626" h="10"/>
+        <obj_info name="bone_003" type="bone" w="34.6699" h="10"/>
+        <obj_info name="bone_004" type="bone" w="53.3385" h="10"/>
+        <obj_info name="bone_005" type="bone" w="78.7718" h="10"/>
+        <obj_info name="bone_006" type="bone" w="95.5249" h="10"/>
+        <obj_info name="bone_007" type="bone" w="80.9938" h="10"/>
+        <obj_info name="bone_008" type="bone" w="61.0574" h="10"/>
+        <obj_info name="bone_009" type="bone" w="74.5185" h="10"/>
+        <obj_info name="bone_010" type="bone" w="18.1575" h="10"/>
+        <obj_info name="bone_011" type="bone" w="27.9837" h="10"/>
+        <obj_info name="bone_012" type="bone" w="11.2608" h="10"/>
+        <obj_info name="bone_013" type="bone" w="22.716" h="10"/>
+        <obj_info name="bone_014" type="bone" w="7.33672" h="10"/>
+        <obj_info name="bone_015" type="bone" w="10.0976" h="10"/>
+        <obj_info name="bone_016" type="bone" w="24.1838" h="10"/>
+        <obj_info name="bone_017" type="bone" w="15.5635" h="10"/>
+        <obj_info name="bone_018" type="bone" w="20.7638" h="10"/>
+        <obj_info name="bone_019" type="bone" w="11.5333" h="10"/>
+        <obj_info name="bone_020" type="bone" w="23.489" h="10"/>
+        <obj_info name="bone_021" type="bone" w="11.8651" h="10"/>
+        <obj_info name="bone_022" type="bone" w="15.8273" h="10"/>
+        <obj_info name="bone_023" type="bone" w="15.2952" h="10"/>
+        <obj_info name="bone_024" type="bone" w="9.38015" h="10"/>
+        <obj_info name="bone_025" type="bone" w="7.64759" h="10"/>
+        <obj_info name="bone_026" type="bone" w="9.78523" h="10"/>
+        <obj_info name="bone_027" type="bone" w="7.78177" h="10"/>
+        <animation id="0" name="NewAnimation" length="1000" interval="100">
+            <mainline>
+                <key id="0"/>
+            </mainline>
+        </animation>
+    </entity>
+</spriter_data>

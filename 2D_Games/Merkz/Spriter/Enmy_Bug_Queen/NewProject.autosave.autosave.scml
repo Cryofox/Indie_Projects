@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spriter_data scml_version="1.0" generator="BrashMonkey Spriter" generator_version="r4.1">
+    <entity id="0" name="entity_000">
+        <obj_info name="bone_000" type="bone" w="138" h="10"/>
+        <obj_info name="bone_001" type="bone" w="84.006" h="10"/>
+        <obj_info name="bone_002" type="bone" w="43.4626" h="10"/>
+        <obj_info name="bone_003" type="bone" w="34.6699" h="10"/>
+        <obj_info name="bone_004" type="bone" w="53.3385" h="10"/>
+        <obj_info name="bone_005" type="bone" w="78.7718" h="10"/>
+        <obj_info name="bone_006" type="bone" w="95.5249" h="10"/>
+        <obj_info name="bone_007" type="bone" w="80.9938" h="10"/>
+        <obj_info name="bone_008" type="bone" w="61.0574" h="10"/>
+        <obj_info name="bone_009" type="bone" w="74.5185" h="10"/>
+        <animation id="0" name="NewAnimation" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <bone_ref id="0" timeline="0" key="0"/>
+                    <bone_ref id="1" parent="0" timeline="1" key="0"/>
+                    <bone_ref id="2" parent="1" timeline="2" key="0"/>
+                    <bone_ref id="3" parent="2" timeline="3" key="0"/>
+                    <bone_ref id="4" parent="3" timeline="4" key="0"/>
+                    <bone_ref id="5" parent="4" timeline="5" key="0"/>
+                    <bone_ref id="6" parent="5" timeline="6" key="0"/>
+                    <bone_ref id="7" parent="6" timeline="7" key="0"/>
+                    <bone_ref id="8" parent="7" timeline="8" key="0"/>
+                    <bone_ref id="9" parent="8" timeline="9" key="0"/>
+                </key>
+            </mainline>
+            <timeline id="0" obj="0" name="bone_000" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="1" y="-43" angle="103.884668"/>
+                </key>
+            </timeline>
+            <timeline id="1" obj="1" name="bone_001" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="176" y="136" angle="0.68206"/>
+                </key>
+            </timeline>
+            <timeline id="2" obj="2" name="bone_002" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="84.005952" y="0" angle="336.292448"/>
+                </key>
+            </timeline>
+            <timeline id="3" obj="3" name="bone_003" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="43.462628" y="-0" angle="326.257203"/>
+                </key>
+            </timeline>
+            <timeline id="4" obj="4" name="bone_004" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="33.544976" y="1.932514" angle="333.227105"/>
+                </key>
+            </timeline>
+            <timeline id="5" obj="5" name="bone_005" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="53.338541" y="0" angle="333.495934"/>
+                </key>
+            </timeline>
+            <timeline id="6" obj="6" name="bone_006" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="78.771822" y="-0" angle="320.906141"/>
+                </key>
+            </timeline>
+            <timeline id="7" obj="7" name="bone_007" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="95.524866" y="0" angle="259.363968"/>
+                </key>
+            </timeline>
+            <timeline id="8" obj="8" name="bone_008" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="81.240759" y="-2.222392" angle="38.167638"/>
+                </key>
+            </timeline>
+            <timeline id="9" obj="9" name="bone_009" object_type="bone">
+                <key id="0" spin="0">
+                    <bone x="60.331488" y="1.291031" angle="354.093835" scale_x="1.861787" scale_y="0.5"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+</spriter_data>
