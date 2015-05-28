@@ -10,6 +10,7 @@ public class Controller : MonoBehaviour {
 	{
 		this.mob=mob;
 		Debug.Log("Moving Object  Linked");
+		
 	}
 
 	// Update is called once per frame

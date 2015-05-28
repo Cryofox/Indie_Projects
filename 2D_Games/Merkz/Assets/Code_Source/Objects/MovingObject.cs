@@ -13,12 +13,28 @@ public class MovingObject
 	bool usesGravity=true;
 
 	bool onLedge=false;
-	bool onWall=false;
+
+	//These two are used to determining whether the player is on
+	//a wall and which direction
+	bool isOnWall=false;
+	bool wallisOnLeft=false;
+
 	bool onLadder=false;
 
 
 	//This value is used to prevent jump spam
 	bool isJumping= false;
+	bool wallJump = false;
+	bool isOnLand=false;
+
+
+	bool isMoving=false;
+	float x_Velocity=0;
+	float x_acceleration=2f;
+	float x_brake=1;
+
+
+
 
 
 	public Vector2 position;
@@ -35,9 +51,28 @@ public class MovingObject
 
 	public void Update(float timeElapsed)
 	{
+		//If not not provided MovementINPUT, then we are braking.
+		if(!isMoving && isOnLand)
+		{
+			if(x_Velocity>0)
+			{
+				x_Velocity -= x_brake;
+				if(x_Velocity<0)
+					x_Velocity=0;
+			}
+			else if(x_Velocity<0)
+			{
+				x_Velocity += x_brake;
+				if(x_Velocity>0)
+					x_Velocity=0;
+			}
+		}
+		newPosition+= (new Vector2(1,0) * x_Velocity );
 
+		isMoving=false;
 
 		//Assume new Position has been placed by controller.
+		//Perform calculation based on timeelapsed since event press
 		Vector2 difference = newPosition- position;
 		newPosition = position + (difference * timeElapsed);
 
@@ -56,8 +91,9 @@ public class MovingObject
 
 	void Correct_Position(float timeElapsed)
 	{
-		bool isOnLand=false;
-
+		isOnLand=false;
+		wallJump=false;
+		isOnWall=false;
 		//Using Both Corner Extremes perform Ground Collision
 		//Process Top Edges( Bottom Collision )
 		//-------------------------
@@ -153,6 +189,8 @@ public class MovingObject
 				float yDifference = newPosition.y - position.y;
 				yDifference /=2;
 				newPosition.y= position.y + yDifference;
+				isOnWall=true;
+				wallisOnLeft= false;
 			}
 			//=========================
 
@@ -172,6 +210,8 @@ public class MovingObject
 				float yDifference = newPosition.y - position.y;
 				yDifference /=2;
 				newPosition.y= position.y + yDifference;
+				isOnWall=true;
+				wallisOnLeft= true;
 			}
 			//=========================		
 
@@ -190,29 +230,19 @@ public class MovingObject
 	void ApplyGravity(float timeElapsed)
 	{
 
-		if(onWall)
-		{}//1/4
-		else if(onLadder || onLedge)
-		{
-			newPosition	+= new Vector2(0,-1) * _GravityMod *timeElapsed;	
-			Collision_Engine.RoundVector(newPosition,4);
-		}//1/1
-		//Because the user can grab a ladder midJump, this must reflect that
-		else
-		{
-			float jumpLoss = (_GravityMod* timeElapsed);
+		float jumpLoss = (_GravityMod* timeElapsed);
 
-			float finalDirection = curJumpForce - jumpLoss;
+		float finalDirection = curJumpForce - jumpLoss;
 
-			newPosition	+= new Vector2(0, (curJumpForce+ -jumpLoss)*timeElapsed);
-			
-			Collision_Engine.RoundVector(newPosition,4);		
+		newPosition	+= new Vector2(0, (curJumpForce+ -jumpLoss)*timeElapsed);
+		
+		Collision_Engine.RoundVector(newPosition,4);		
 
-			curJumpForce-=jumpLoss;	
-			if(curJumpForce< -_GravityMod)
-				curJumpForce=-_GravityMod;
-			Debug.Log("curJumpForce="+curJumpForce);
-		}
+		curJumpForce-=jumpLoss;	
+		if(curJumpForce< -_GravityMod)
+			curJumpForce=-_GravityMod;
+		Debug.Log("curJumpForce="+curJumpForce);
+
 	}
 
 	
@@ -225,14 +255,31 @@ public class MovingObject
 	}
 
 
-	
+
 	public void Move_Right()
 	{
-		newPosition+= (new Vector2(1,0) * _MaxSpeed );
+		// if(isOnLand)
+		// {
+			//This only works if we are Standing!
+
+			x_Velocity+= x_acceleration;
+
+			if(x_Velocity> _MaxSpeed)
+				x_Velocity=_MaxSpeed;
+			// newPosition+= (new Vector2(1,0) * x_Velocity );
+			isMoving=true;
+		// }
 	}
 	public void Move_Left()
 	{
-		newPosition+= (new Vector2(-1,0) * _MaxSpeed );
+		// if(isOnLand)
+		// {
+			x_Velocity-= x_acceleration;
+			if(x_Velocity< -_MaxSpeed)
+				x_Velocity=-_MaxSpeed;
+			// newPosition+= (new Vector2(1,0) * x_Velocity );
+			isMoving=true;
+		// }
 	}
 
 
@@ -245,7 +292,21 @@ public class MovingObject
 	//:D
 	public void Move_Jump()
 	{
-		if(!isJumping)
+		if(isOnWall)
+		{
+
+			position.y+=0.25f;
+			curJumpForce = _MaxJumpMod;
+			isJumping=true;
+			Debug.Log("isJumping="+isJumping);						
+			//We must Push Against the Wall...
+			
+			if(wallisOnLeft)
+				x_Velocity=_MaxSpeed;
+			else
+				x_Velocity=-_MaxSpeed;
+		}			
+		else if(!isJumping)
 		{
 			position.y+=0.25f;
 			curJumpForce = _MaxJumpMod;
