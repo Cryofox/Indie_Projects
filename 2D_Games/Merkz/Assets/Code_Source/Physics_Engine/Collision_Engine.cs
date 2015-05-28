@@ -308,8 +308,8 @@ namespace MyCollision
 							eoi.point_2 = box.point_TR;
 
 							edge=eoi;
-							// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);	
-							last_E= Vector2.Distance(center, point);	
+							Debug.DrawLine(center,point, Color.blue);	
+							last_E= Vector2.Distance(center,  midpoint);	
 						}
 				}
 			}
@@ -340,8 +340,8 @@ namespace MyCollision
 							eoi.point_2 = box.point_BR;
 
 							edge=eoi;
-							// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);	
-							last_E= Vector2.Distance(center, point);	
+							Debug.DrawLine(center,point, Color.green);	
+							last_E= Vector2.Distance(center,  midpoint);	
 						}
 				}
 			}
@@ -372,8 +372,8 @@ namespace MyCollision
 							eoi.point_2 = box.point_TL;
 
 							edge=eoi;
-							// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);	
-							last_E= Vector2.Distance(center, point);	
+							Debug.DrawLine(center,point, Color.red);	
+							last_E= Vector2.Distance(center,  midpoint);	
 						}
 				}
 			}
@@ -404,8 +404,8 @@ namespace MyCollision
 							eoi.point_2 = box.point_TR;
 
 							edge=eoi;
-							// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);	
-							last_E= Vector2.Distance(center, point);	
+							Debug.DrawLine(center,point, Color.cyan);	
+							last_E= Vector2.Distance(center,  midpoint);	
 						}
 				}
 			}

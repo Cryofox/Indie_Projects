@@ -56,8 +56,9 @@ public class MovingObject
 		//Using Both Corner Extremes perform Ground Collision
 		//Process Top
 		//-------------------------
-		Edge collisionEdge = Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0.5f,0.5f),newPosition + new Vector2(0.5f,-0.1f),0);
-		Edge collisionEdge_2 = Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(-0.5f,0.5f),newPosition + new Vector2(-0.5f,-0.1f),0);
+		Edge collisionEdge = Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0.5f,0.6f),newPosition + new Vector2(0.5f,-0.1f),0);
+
+		Edge collisionEdge_2 = Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(-0.5f,0.6f),newPosition + new Vector2(-0.5f,-0.1f),0);
 		// bool top_Affected=false;
 		// Debug.Log("EdgeCount="+edges.Count);
 		if(collisionEdge.side!=Edge_Side.None)
