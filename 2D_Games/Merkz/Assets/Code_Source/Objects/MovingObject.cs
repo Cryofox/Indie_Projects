@@ -328,15 +328,31 @@ public class MovingObject
 	public void Calculate_AimRotation()
 	{
 		//Create a Triangle
-		float angle= Mathf.Asin( aim_Target.y/ aim_Target.x ) * 180/Mathf.PI;
-			Debug.Log("Angle="+ (angle));
-		if(angle>=-90 && angle<=90)
+		float angle= Mathf.Atan( aim_Target.y/ aim_Target.x ) * 180/Mathf.PI;
+		// Debug.Log("Direct:"+ aim_Target);
+		// Debug.Log("Angle="+ (angle));
+		if(aim_Target.x>0)
 		{
 			animController.SetFloat("Aim", angle/90 );
-			Debug.Log("Aim="+ (angle/90));
-		}
+			// Debug.Log("Aim="+ (angle/90));
 
+			//Ensure Correct Rotation
+			go_Model.transform.localScale =new Vector3(1,1,1);// Quaternion.Euler(0,0,0);
+
+		}
+		else
+		{
+			animController.SetFloat("Aim", - angle/90 );
+			// Debug.Log("Aim="+ (- angle/90));	
+
+			//Ensure Correct Rotation
+			go_Model.transform.localScale =new Vector3(-1,1,1);// Quaternion.Euler(0,180,0);
+
+		}
 	}
+
+
+
 
 	public void Set_Aim(Vector2 target)
 	{

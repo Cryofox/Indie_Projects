@@ -30,7 +30,7 @@ public class World : MonoBehaviour {
 		MovingObject mob = Entity_Manager.Add_Entity(ob, Vector2.zero);
 		//Link Controller to Mob
 		ob.transform.GetComponent<Controller>().Init_MovingObject(mob);
-		GameObject.Find("Camera_Focus").transform.parent = ob.transform;
+		// GameObject.Find("Camera_Focus").transform.parent = ob.transform;
 
 	}
 
@@ -46,7 +46,7 @@ public class World : MonoBehaviour {
 	private void SetCustomCursor()  
     {  
         //Replace the 'cursorTexture' with the cursor    
-		Cursor.SetCursor(Resources.Load<Texture2D>("Sprites/AimCursor100x100"),new Vector2(0,0),CursorMode.Auto);
+		Cursor.SetCursor(Resources.Load<Texture2D>("Sprites/AimCursor100x100"),new Vector2(100,100),CursorMode.Auto);
         Debug.Log("Custom cursor has been set.");  
         //Set the ccEnabled variable to true  
         this.ccEnabled = true;  
