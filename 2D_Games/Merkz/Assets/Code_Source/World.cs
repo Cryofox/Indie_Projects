@@ -18,7 +18,6 @@ public class World : MonoBehaviour {
 	{
 		//Creature Movement -> Collision Correction -> Final Position
 		Entity_Manager.Update(); 
-
 	}
 
 	void Spawn_Player()
@@ -47,7 +46,7 @@ public class World : MonoBehaviour {
 	private void SetCustomCursor()  
     {  
         //Replace the 'cursorTexture' with the cursor    
-		Cursor.SetCursor(Resources.Load<Texture2D>("Exported_Sprites/AimCursor100x100"),new Vector2(0,0),CursorMode.Auto);
+		Cursor.SetCursor(Resources.Load<Texture2D>("Sprites/AimCursor100x100"),new Vector2(0,0),CursorMode.Auto);
         Debug.Log("Custom cursor has been set.");  
         //Set the ccEnabled variable to true  
         this.ccEnabled = true;  

@@ -36,21 +36,26 @@ public class MovingObject
 
 
 
-
+	Vector2 aim_Target;
 	public Vector2 position;
 	public GameObject go_Model;
 	Vector2 newPosition; 
-
+	Animator animController;
 	public MovingObject(GameObject go, Vector2 position)
 	{
 		this.go_Model = go;
 		this.position=position;
+		this.aim_Target=new Vector2(1,0);//Default to Forward
+		this.animController= go_Model.GetComponent<Animator>();
 	}
 
 
 
 	public void Update(float timeElapsed)
 	{
+		//Aim has nothing to do with movement or collision, so process it first.
+		Calculate_AimRotation();
+
 		//If not not provided MovementINPUT, then we are braking.
 		if(!isMoving && isOnLand)
 		{
@@ -231,9 +236,6 @@ public class MovingObject
 	{
 
 		float jumpLoss = (_GravityMod* timeElapsed);
-
-		float finalDirection = curJumpForce - jumpLoss;
-
 		newPosition	+= new Vector2(0, (curJumpForce+ -jumpLoss)*timeElapsed);
 		
 		Collision_Engine.RoundVector(newPosition,4);		
@@ -241,7 +243,7 @@ public class MovingObject
 		curJumpForce-=jumpLoss;	
 		if(curJumpForce< -_GravityMod)
 			curJumpForce=-_GravityMod;
-		Debug.Log("curJumpForce="+curJumpForce);
+		// Debug.Log("curJumpForce="+curJumpForce);
 
 	}
 
@@ -298,7 +300,7 @@ public class MovingObject
 			position.y+=0.25f;
 			curJumpForce = _MaxJumpMod;
 			isJumping=true;
-			Debug.Log("isJumping="+isJumping);						
+			// Debug.Log("isJumping="+isJumping);						
 			//We must Push Against the Wall...
 			
 			if(wallisOnLeft)
@@ -311,7 +313,7 @@ public class MovingObject
 			position.y+=0.25f;
 			curJumpForce = _MaxJumpMod;
 			isJumping=true;
-			Debug.Log("isJumping="+isJumping);
+			// Debug.Log("isJumping="+isJumping);
 		}
 	}
 
@@ -322,4 +324,23 @@ public class MovingObject
 			curJumpForce = curJumpForce-  curJumpForce/1.5f;
 		}
 	}
+
+	public void Calculate_AimRotation()
+	{
+		//Create a Triangle
+		float angle= Mathf.Asin( aim_Target.y/ aim_Target.x ) * 180/Mathf.PI;
+			Debug.Log("Angle="+ (angle));
+		if(angle>=-90 && angle<=90)
+		{
+			animController.SetFloat("Aim", angle/90 );
+			Debug.Log("Aim="+ (angle/90));
+		}
+
+	}
+
+	public void Set_Aim(Vector2 target)
+	{
+		aim_Target= target;
+	}
+	
 }

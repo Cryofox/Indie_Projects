@@ -1,0 +1,66 @@
+-Now for Bullet Physics!
+
+Aim Animation at Mouse Cursor
+Set LeftClick to Shoot Animation
+
+
+System should use a Start/Direction implementation for all projectile effects
+Different Types of Projectiles:
+Bullet - Shot from start, shifts position each second till collides with an object
+Beam - Shoot a Line-Intersect untill the first collider is hit, then draw a beam made up of a "Head", Tile-Able "Body" parts, and a "Tail" for where the collision occurs.
+Seeker (Detected) - Will shoot like a bullet but arc when an enemy is within Detection radius.
+Seeker (RandomCorrected) - Will shoot missiles in arc like motion towards Target Cursor
+
+
+The Beam is also how a Grapple Hook effect would be constructed.
+
+Beam Types:
+	Laser 		(Continuous)
+	Carbine  (Shoots a burst that dissipates)
+	Electric	(Like Laser, OR branches off and tags enemies near the beam).
+	ArcLight (Laser that shoots in direction but curves? towards enemies). 
+Will require curved pieces to represent how tight curves can be.
+
+
+All Objects will need to be rotated in the correct direction.
+Objects must not only travel in that direction but be rotated to face it.
+
+Broken Steps:
+
+	Create Animation For Aim Up, Down, Forward.
+	Sync so "Gun" aims at Target.
+		Target is just a Vector2, human overwrites Target with mouse Position.
+	
+How to Sync, use 90-> -90 degrees as reference point. If angle >90 || < -90, flip character 
+and use 180-Angle as values.
+
+Multiply Animation -1,1 by Percentage of Angle from -90 - 90. And thats the aim.
+
+The class only modifies the Parameter, Mecanim handles animation interpolation.
+
+
+
+Once this is done Create Gun Class for handling Projectile Spawning, Reload Timing, Accuracy etc.
+
+
+Projectile Manager (Static) will handle the Management of all Projectiles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

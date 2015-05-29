@@ -472,7 +472,7 @@ namespace MyCollision
 	 		// UnityEngine.Debug.Log("E="+val);
 	 		if(val)
 	 		{
-	 			UnityEngine.Debug.Log("Intersect at:"+ (A.x+t*r.x)+","+(A.y+t*r.y));
+	 			// UnityEngine.Debug.Log("Intersect at:"+ (A.x+t*r.x)+","+(A.y+t*r.y));
 	 			intersect = new Vector2( (A.x+t*r.x),(A.y+t*r.y) );
 	 		}
 			return val;

@@ -33,11 +33,28 @@ public class Controller : MonoBehaviour {
 			mob.Move_LimitJump();
 		}
 
+		//Need to get Coordinates in reference to Player.
+
+		GetWorldPosition();
 	}
 
 
+Vector3 mousePosition;
+	void GetWorldPosition()
+	{
+
+ 		Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+		//Get Distance from Origin to Ground based on direction
+
+		float distance = -(ray.origin.z/ ray.direction.z);
+
+        Debug.DrawRay(ray.origin, ray.direction * distance, Color.yellow);
+		mousePosition=  (ray.origin+ (ray.direction*distance) );
+	    // }
 
 
+	}
 
 
 
