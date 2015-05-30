@@ -173,7 +173,7 @@ public class MovingObject
 			{
 				newPosition.x = position.x;
 			}
-			//=========================		
+			//=========================	
 		}
 		//Otherwise we wall slide
 		else
@@ -184,7 +184,7 @@ public class MovingObject
 			collisionEdge_2 = 	Collision_Engine.Collision_Check_FirstSingle(position+new Vector2(0,0.9f),newPosition + new Vector2(0.5f,0.9f),2);
 
 			if(collisionEdge.side!=Edge_Side.None)
-				Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.blue);
+				Debug.DrawLine(collisionEdge.point_1, collisionEdge.point_2, Color.cyan);
 
 
 			if((collisionEdge.side!=Edge_Side.None)||(collisionEdge_2.side!=Edge_Side.None))
@@ -196,6 +196,10 @@ public class MovingObject
 				newPosition.y= position.y + yDifference;
 				isOnWall=true;
 				wallisOnLeft= false;
+
+				if(x_Velocity>0)
+					x_Velocity=1f;
+
 			}
 			//=========================
 
@@ -217,10 +221,16 @@ public class MovingObject
 				newPosition.y= position.y + yDifference;
 				isOnWall=true;
 				wallisOnLeft= true;
+				if(x_Velocity<0)
+					x_Velocity=-1f;
 			}
 			//=========================		
+			
+
+
 
 		}
+		UnityEngine.Debug.Log("XVel="+x_Velocity);
 
 	}
 
