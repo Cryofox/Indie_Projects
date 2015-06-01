@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 public class Projectile {
+	public Animator animController;
 	public string proj_ID="Default";
 
 	public Vector2 position;

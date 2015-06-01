@@ -5,12 +5,14 @@ using MyCollision;
 namespace MyCollision
 {
 	public enum Edge_Side {Top,Bot,Left,Right, None};
-	public struct Box
+	public class Box
 	{
 		public Vector2 point_TR;
 		public Vector2 point_TL;
 		public Vector2 point_BR;
 		public Vector2 point_BL;
+		public bool collides=false;
+		public Box(){}
 	}
 	public class Edge
 	{
@@ -35,7 +37,7 @@ namespace MyCollision
 
 		//bounds.contains(vector3)
 
-		static List<Collider> colliders;
+		static List<GameObject> colliders;
 		
 
 		public static void Clear_List()
@@ -43,12 +45,13 @@ namespace MyCollision
 		//Setup the List from whatever's currently in the scene
 		public static void Load_FromScene()
 		{
-			colliders= new List<Collider>();
+			colliders= new List<GameObject>();
 			// colliders.AddRange(GameObject.FindGameObjectsWithTag("Tile").GetComponent<Collider>())
 			GameObject[] temp = GameObject.FindGameObjectsWithTag("Tile");
 			foreach(GameObject go in temp)
 			{
-				colliders.Add(go.GetComponent<Collider>());
+				// colliders.Add(go.GetComponent<Collider>());
+				colliders.Add(go);
 				// Collider temp = go.GetComponent<Collider>();
 
 				//Calculate TopRight and BotLeft points from Center and Size
@@ -61,217 +64,7 @@ namespace MyCollision
 		{
 
 		}
-/*
-		public static List<Edge> Collision_Check_All(Vector2 center,Vector2 point)
-		{
-			List<Edge> interEdges= new List<Edge>();
-			for(int x=0;x<colliders.Count;x++)
-			{
 
-				// Debug.Log("Collision Occured");
-				Box box = new Box();
-				box.point_TR = colliders[x].gameObject.transform.Find("TR_Corner").position;
-				box.point_TL = colliders[x].gameObject.transform.Find("TL_Corner").position;
-				box.point_BR = colliders[x].gameObject.transform.Find("BR_Corner").position;
-				box.point_BL = colliders[x].gameObject.transform.Find("BL_Corner").position;
-
-				//Top Edge
-				if(LinesIntersect(point,center, box.point_TL, box.point_TR))
-				{
-					//Edge of interest
-					Edge eoi = new Edge();
-					eoi.side= Edge_Side.Top;
-					eoi.point_1 = box.point_TL;
-					eoi.point_2 = box.point_TR;
-
-
-					interEdges.Add(eoi);	
-					// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);					
-				}
-				//Bot Edge
-				if(LinesIntersect(point,center, box.point_BL, box.point_BR))
-				{
-					//Edge of interest
-					Edge eoi = new Edge();
-					eoi.side= Edge_Side.Bot;
-					eoi.point_1 = box.point_BL;
-					eoi.point_2 = box.point_BR;
-
-
-					interEdges.Add(eoi);	
-					// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);					
-				}
-
-				//Right Edge
-				if(LinesIntersect(point,center, box.point_TR, box.point_BR))
-				{
-					//Edge of interest
-					Edge eoi = new Edge();
-					eoi.side= Edge_Side.Right;
-					eoi.point_1 = box.point_BL;
-					eoi.point_2 = box.point_BR;
-
-
-					interEdges.Add(eoi);		
-					// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);				
-				}		
-				//Left Edge
-				if(LinesIntersect(point,center, box.point_TL, box.point_BL))
-				{
-					//Edge of interest
-					Edge eoi = new Edge();
-					eoi.side= Edge_Side.Left;
-					eoi.point_1 = box.point_BL;
-					eoi.point_2 = box.point_BR;
-
-
-
-					interEdges.Add(eoi);		
-					// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);			
-				}								
-				// intersectingBoxes.Add(box);
-				
-			}
-			// if(interEdges.Count==0)
-				// UnityEngine.Debug.Log("NoCollision? C:"+center+"TPos:"+ point);
-			return interEdges;
-		}
-*/
-		//Mask 
-		/*
-		0= No Mask
-		1= Top Mask
-		2= Right Mask
-		3= Left Mask
-		4= Bot Mask
-
-		*/
-/*
-		public static List<Edge> Collision_Check_FirstMultiDirect(Vector2 center,Vector2 point)
-		{
-
-			List<Edge> interEdges= new List<Edge>();
-			float last_T=500; //500 = Limit for Check
-			float last_B=500;
-			float last_R=500;
-			float last_L=500;
-
-			for(int x=0;x<colliders.Count;x++)
-			{
-
-				// Debug.Log("Collision Occured");
-				Box box = new Box();
-				box.point_TR = colliders[x].gameObject.transform.Find("TR_Corner").position;
-				box.point_TL = colliders[x].gameObject.transform.Find("TL_Corner").position;
-				box.point_BR = colliders[x].gameObject.transform.Find("BR_Corner").position;
-				box.point_BL = colliders[x].gameObject.transform.Find("BL_Corner").position;
-
-				//Top Edge
-				Vector2 midpoint;
-
-
-				midpoint = (box.point_TL+box.point_TR)/2;
-				if(  Vector2.Distance(center, midpoint) <last_T )
-					if(LinesIntersect(point,center, box.point_TL, box.point_TR))
-					{
-						for(int i=0;i< interEdges.Count;i++)
-						{
-							if(interEdges[i].side==Edge_Side.Top)
-							{
-								interEdges.RemoveAt(i);
-								i--;	
-							}
-						}	
-						//Edge of interest
-						Edge eoi = new Edge();
-						eoi.side= Edge_Side.Top;
-						eoi.point_1 = box.point_TL;
-						eoi.point_2 = box.point_TR;
-
-
-						interEdges.Add(eoi);	
-						// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);	
-						last_T= Vector2.Distance(center, midpoint);	
-					}
-
-
-				//Bot Edge
-				midpoint = (box.point_BL+box.point_BR)/2;
-				if(  Vector2.Distance(center, midpoint) <last_T )
-					if(LinesIntersect(point,center, box.point_BL, box.point_BR))
-					{
-						for(int i=0;i< interEdges.Count;i++)
-						{
-							if(interEdges[i].side==Edge_Side.Bot)
-							{
-								interEdges.RemoveAt(i);
-								i--;	
-							}
-						}	
-						//Edge of interest
-						Edge eoi = new Edge();
-						eoi.side= Edge_Side.Bot;
-						eoi.point_1 = box.point_BL;
-						eoi.point_2 = box.point_BR;
-
-						interEdges.Add(eoi);	
-						// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);					
-					}
-
-				//Right Edge
-				midpoint = (box.point_TR+box.point_BR)/2;
-				if(  Vector2.Distance(center, midpoint) <last_T )
-					if(LinesIntersect(point,center, box.point_TR, box.point_BR))
-					{
-						for(int i=0;i< interEdges.Count;i++)
-						{
-							if(interEdges[i].side==Edge_Side.Right)
-							{
-								interEdges.RemoveAt(i);
-								i--;	
-							}
-						}
-						//Edge of interest
-						Edge eoi = new Edge();
-						eoi.side= Edge_Side.Right;
-						eoi.point_1 = box.point_TR;
-						eoi.point_2 = box.point_BR;
-
-
-						interEdges.Add(eoi);		
-						// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);				
-					}		
-				//Left Edge
-				midpoint = (box.point_TL+box.point_BL)/2;
-				if(  Vector2.Distance(center, midpoint) <last_T )
-					if(LinesIntersect(point,center, box.point_TL, box.point_BL))
-					{
-						//Clear Previous Edge
-						for(int i=0;i< interEdges.Count;i++)
-						{
-							if(interEdges[i].side==Edge_Side.Left)
-							{
-								interEdges.RemoveAt(i);
-								i--;	
-							}
-						}
-						//Edge of interest
-						Edge eoi = new Edge();
-						eoi.side= Edge_Side.Left;
-						eoi.point_1 = box.point_BL;
-						eoi.point_2 = box.point_BR;
-
-						interEdges.Add(eoi);		
-						// Debug.DrawLine(eoi.point_1,eoi.point_2, Color.green);			
-					}								
-				// intersectingBoxes.Add(box);
-				
-			}
-			// if(interEdges.Count==0)
-				// UnityEngine.Debug.Log("NoCollision? C:"+center+"TPos:"+ point);
-			return interEdges;
-		}
-*/
 		//0 = Top
 		//1 = Bot
 		//2 = Left
@@ -291,10 +84,10 @@ namespace MyCollision
 
 					// Debug.Log("Collision Occured");
 					Box box = new Box();
-					box.point_TR = colliders[x].gameObject.transform.Find("TR_Corner").position;
-					box.point_TL = colliders[x].gameObject.transform.Find("TL_Corner").position;
-					box.point_BR = colliders[x].gameObject.transform.Find("BR_Corner").position;
-					box.point_BL = colliders[x].gameObject.transform.Find("BL_Corner").position;
+					box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+					box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+					box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+					box.point_BL = colliders[x].transform.Find("BL_Corner").position;
 
 					//Top Edge
 					Vector2 midpoint;
@@ -323,10 +116,10 @@ namespace MyCollision
 
 					// Debug.Log("Collision Occured");
 					Box box = new Box();
-					box.point_TR = colliders[x].gameObject.transform.Find("TR_Corner").position;
-					box.point_TL = colliders[x].gameObject.transform.Find("TL_Corner").position;
-					box.point_BR = colliders[x].gameObject.transform.Find("BR_Corner").position;
-					box.point_BL = colliders[x].gameObject.transform.Find("BL_Corner").position;
+					box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+					box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+					box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+					box.point_BL = colliders[x].transform.Find("BL_Corner").position;
 
 					//Top Edge
 					Vector2 midpoint;
@@ -355,10 +148,10 @@ namespace MyCollision
 
 					// Debug.Log("Collision Occured");
 					Box box = new Box();
-					box.point_TR = colliders[x].gameObject.transform.Find("TR_Corner").position;
-					box.point_TL = colliders[x].gameObject.transform.Find("TL_Corner").position;
-					box.point_BR = colliders[x].gameObject.transform.Find("BR_Corner").position;
-					box.point_BL = colliders[x].gameObject.transform.Find("BL_Corner").position;
+					box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+					box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+					box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+					box.point_BL = colliders[x].transform.Find("BL_Corner").position;
 
 					//Top Edge
 					Vector2 midpoint;
@@ -387,10 +180,10 @@ namespace MyCollision
 
 					// Debug.Log("Collision Occured");
 					Box box = new Box();
-					box.point_TR = colliders[x].gameObject.transform.Find("TR_Corner").position;
-					box.point_TL = colliders[x].gameObject.transform.Find("TL_Corner").position;
-					box.point_BR = colliders[x].gameObject.transform.Find("BR_Corner").position;
-					box.point_BL = colliders[x].gameObject.transform.Find("BL_Corner").position;
+					box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+					box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+					box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+					box.point_BL = colliders[x].transform.Find("BL_Corner").position;
 
 					//Top Edge
 					Vector2 midpoint;
@@ -414,6 +207,199 @@ namespace MyCollision
 			// Debug.Log("E="+edge.side.ToString());
 			return edge;
 		}
+
+		public static Box Collision_Check_BoxContains(Vector2 center)
+		{
+
+			Box box = null;
+			//Top
+			for(int x=0;x<colliders.Count;x++)
+			{
+
+				// Debug.Log("Collision Occured");
+				if(box==null)
+					box = new Box();
+
+				box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+				box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+				box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+				box.point_BL = colliders[x].transform.Find("BL_Corner").position;
+
+				//If an Unrotated box contains the collision, then proceed to Calculating Slope
+				if	(
+					center.x < box.point_TR.x &&
+					center.x > box.point_BL.x &&
+					center.y < box.point_TR.y &&
+					center.y > box.point_BL.y
+					)
+					{
+							//Here the box could be Rotated, so to prevent False Positives.
+							//Convert Line into Slope equation y = mx + b
+						Vector2 p2 = box.point_TR;//- edges[x].point_1;
+						Vector2 p1 = box.point_TL;// - edges[x].point_1;//0
+
+						float playerX = center.x -box.point_TL.x;
+						float slope = Collision_Engine.RoundNum(p2.y - p1.y,1) / Collision_Engine.RoundNum(p2.x - p1.x,1); 
+						// Debug.LogError("Slope="+slope);
+						float y = slope* playerX;
+
+						if(slope==0)
+							return box;
+							
+							//If our Y is Bloe this Continue
+							if(center.y<= y)
+							{
+								//Same Equation but with Bottom
+								p2 = box.point_BR;//- edges[x].point_1;
+								p1 = box.point_BL;// - edges[x].point_1;//0
+
+								playerX = center.x -box.point_BL.x;
+								slope = Collision_Engine.RoundNum(p2.y - p1.y,1) / Collision_Engine.RoundNum(p2.x - p1.x,1); 
+								y = slope* playerX ;		
+
+								if(center.y>=y)
+								{
+									//It's a Collision inside the rotated box :/
+									return box;
+								}
+
+							}
+					}					
+			}
+			return null;		
+		}
+		//Returns the closest edge intersection, regardless the side.
+		public static Edge Collision_Check_FirstAny(Vector2 center,Vector2 point)
+		{
+
+			Edge edge=new Edge();  
+			edge.side=Edge_Side.None;
+			float last_E=500; //500 = Limit for Check
+			Vector2 intersect= Vector2.zero;
+			//Top
+			for(int x=0;x<colliders.Count;x++)
+			{
+
+				// Debug.Log("Collision Occured");
+				Box box = new Box();
+				box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+				box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+				box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+				box.point_BL = colliders[x].transform.Find("BL_Corner").position;
+
+				//Top Edge
+				Vector2 midpoint;
+				midpoint = (box.point_TL+box.point_TR)/2;
+				if(  Vector2.Distance(center, midpoint) <last_E )
+					if(LinesIntersect(point,center, box.point_TL, box.point_TR,ref intersect))
+					{
+
+						//Edge of interest
+						Edge eoi = new Edge();
+						eoi.side= Edge_Side.Top;
+						eoi.point_1 = box.point_TL;
+						eoi.point_2 = box.point_TR;
+
+						edge=eoi;
+						Debug.DrawLine(center,point, Color.blue);	
+						last_E= Vector2.Distance(center, intersect);	
+					}
+			}
+		
+			//Bot
+			for(int x=0;x<colliders.Count;x++)
+			{
+
+				// Debug.Log("Collision Occured");
+				Box box = new Box();
+				box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+				box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+				box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+				box.point_BL = colliders[x].transform.Find("BL_Corner").position;
+
+				//Top Edge
+				Vector2 midpoint;
+				midpoint = (box.point_BL+box.point_BR)/2;
+				if(  Vector2.Distance(center, midpoint) <last_E )
+					if(LinesIntersect(point,center, box.point_BL, box.point_BR,ref intersect))
+					{
+
+						//Edge of interest
+						Edge eoi = new Edge();
+						eoi.side= Edge_Side.Bot;
+						eoi.point_1 = box.point_BL;
+						eoi.point_2 = box.point_BR;
+
+						edge=eoi;
+						Debug.DrawLine(center,point, Color.green);	
+						last_E= Vector2.Distance(center, intersect);	
+					}
+			}
+
+			//Left
+			for(int x=0;x<colliders.Count;x++)
+			{
+
+				// Debug.Log("Collision Occured");
+				Box box = new Box();
+				box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+				box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+				box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+				box.point_BL = colliders[x].transform.Find("BL_Corner").position;
+
+				//Top Edge
+				Vector2 midpoint;
+				midpoint = (box.point_TL+box.point_BL)/2;
+				if(  Vector2.Distance(center, midpoint) <last_E )
+					if(LinesIntersect(point,center, box.point_BL, box.point_TL,ref intersect))
+					{
+
+						//Edge of interest
+						Edge eoi = new Edge();
+						eoi.side= Edge_Side.Left;
+						eoi.point_1 = box.point_BL;
+						eoi.point_2 = box.point_TL;
+
+						edge=eoi;
+						Debug.DrawLine(center,point, Color.red);	
+						last_E= Vector2.Distance(center, intersect);	
+					}
+			}
+
+			//Right
+			for(int x=0;x<colliders.Count;x++)
+			{
+
+				// Debug.Log("Collision Occured");
+				Box box = new Box();
+				box.point_TR = colliders[x].transform.Find("TR_Corner").position;
+				box.point_TL = colliders[x].transform.Find("TL_Corner").position;
+				box.point_BR = colliders[x].transform.Find("BR_Corner").position;
+				box.point_BL = colliders[x].transform.Find("BL_Corner").position;
+
+				//Top Edge
+				Vector2 midpoint;
+				midpoint = (box.point_TR+box.point_BR)/2;
+				if(  Vector2.Distance(center, midpoint) <last_E )
+					if(LinesIntersect(point,center, box.point_BR, box.point_TR,ref intersect))
+					{
+
+						//Edge of interest
+						Edge eoi = new Edge();
+						eoi.side= Edge_Side.Right;
+						eoi.point_1 = box.point_BR;
+						eoi.point_2 = box.point_TR;
+
+						edge=eoi;
+						Debug.DrawLine(center,point, Color.cyan);	
+						last_E= Vector2.Distance(center,  intersect);	
+					}
+			}
+			
+			// Debug.Log("E="+edge.side.ToString());
+			return edge;
+		}
+
 
 		public static Vector2 RoundVector(Vector2 vector, float decimalPoints)
 		{

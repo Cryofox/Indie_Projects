@@ -52,7 +52,7 @@
         <file id="48" name="player shots/Laser_Head.png" width="200" height="100" pivot_x="0" pivot_y="1"/>
         <file id="49" name="player shots/Laser_Body.png" width="200" height="100" pivot_x="0" pivot_y="1"/>
     </folder>
-    <entity id="0" name="entity_000">
+    <entity id="0" name="FX_Projectile">
         <obj_info name="Particle 1" type="bone" w="64" h="10"/>
         <obj_info name="Particle 2" type="bone" w="57" h="10"/>
         <animation id="0" name="Yellow Shot" length="800" interval="100">
@@ -85,7 +85,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="1" name="[2]G_Shot_Travel" length="800" interval="100">
+        <animation id="1" name="1_G_Shot_Travel" length="800" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -97,7 +97,7 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="2" name="[1]Y_Shot_Travel" length="800" interval="100">
+        <animation id="2" name="1_Y_Shot_Travel" length="800" interval="100">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
@@ -115,53 +115,31 @@
                 </key>
             </timeline>
         </animation>
-        <animation id="3" name="[1]B_Beam_Head" length="800" interval="100">
+        <animation id="3" name="1_B_Beam_Head" length="800" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
-                </key>
-                <key id="1" time="348">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
-            <timeline id="0" name="Yellow_Shot1">
-                <key id="0" time="348" spin="0">
-                    <object folder="0" file="46" x="0.006989" y="0.006051" pivot_x="0.493011" pivot_y="0.493949" angle="0" scale_x="0.908224"/>
-                </key>
-            </timeline>
-            <timeline id="1" name="Laser_Head_000">
+            <timeline id="0" name="Laser_Head_000">
                 <key id="0" spin="0">
-                    <object folder="0" file="48" x="0.219181" y="-0.000054" pivot_x="0.50474" pivot_y="0.500024" scale_x="2.258275" scale_y="2.258275"/>
+                    <object folder="0" file="48" x="0.219181" y="-0.000054" pivot_x="0.50474" pivot_y="0.500024" angle="0" scale_x="2.258275" scale_y="2.258275"/>
                 </key>
             </timeline>
         </animation>
-        <animation id="4" name="[1]B_Beam_Body" length="800" interval="100">
+        <animation id="4" name="1_B_Beam_Body" length="800" interval="100">
             <mainline>
                 <key id="0">
-                    <object_ref id="0" timeline="1" key="0" z_index="0"/>
-                    <object_ref id="1" timeline="2" key="0" z_index="1"/>
-                </key>
-                <key id="1" time="348">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
                 </key>
             </mainline>
-            <timeline id="0" name="Yellow_Shot1">
-                <key id="0" time="348" spin="0">
-                    <object folder="0" file="46" x="0.006989" y="0.006051" pivot_x="0.493011" pivot_y="0.493949" angle="0" scale_x="0.908224"/>
-                </key>
-            </timeline>
-            <timeline id="1" name="Laser_Head_000">
+            <timeline id="0" name="Laser_Body">
                 <key id="0" spin="0">
-                    <object folder="0" file="48" x="0.219181" y="-0.000054" pivot_x="0.50474" pivot_y="0.500024" scale_x="2.258275" scale_y="2.258275"/>
-                </key>
-            </timeline>
-            <timeline id="2" name="Laser_Body">
-                <key id="0" spin="0">
-                    <object folder="0" file="49" x="49.713381" y="1.072327" pivot_x="0.496227" pivot_y="0.504735" scale_x="2.286711" scale_y="2.286711"/>
+                    <object folder="0" file="49" x="0.71338" y="1.072327" pivot_x="0.496227" pivot_y="0.504735" angle="0" scale_x="2.286711" scale_y="2.286711"/>
                 </key>
             </timeline>
         </animation>
-        <animation id="5" name="[1]Y_Shot_Fire" length="200" interval="100" looping="false">
+        <animation id="5" name="1_Y_Shot_Fire" length="200" interval="100" looping="false">
             <mainline>
                 <key id="0">
                     <object_ref id="0" timeline="0" key="0" z_index="0"/>
