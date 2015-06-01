@@ -39,16 +39,42 @@ public class MovingObject
 	Vector2 aim_Target;
 	public Vector2 position;
 	public GameObject go_Model;
+	GameObject p_Launcher;
 	Vector2 newPosition; 
 	Animator animController;
+	Gun gun;
 	public MovingObject(GameObject go, Vector2 position)
 	{
 		this.go_Model = go;
 		this.position=position;
 		this.aim_Target=new Vector2(1,0);//Default to Forward
 		this.animController= go_Model.GetComponent<Animator>();
+		// this.p_Launcher = go_Model.transform.Find("Particle_Launcher").gameObject;
+
+		Find_Child(ref p_Launcher,"Particle_Launcher", go_Model.transform);
+		this.gun = new Gun();
 	}
 
+	void Find_Child(ref GameObject target, string name, Transform tr)
+	{
+
+		foreach (Transform child in tr)
+		{
+			if(child.name==name)
+			{
+				UnityEngine.Debug.Log("Found Child!");
+				target = child.gameObject;
+				if(target==null)
+					UnityEngine.Debug.Log("Target Null :(");
+			}
+			else
+			{
+				// UnityEngine.Debug.Log("TR="+ child.name);
+				Find_Child(ref target, name,child);
+			}
+		}		
+
+	}
 
 
 	public void Update(float timeElapsed)
@@ -230,7 +256,7 @@ public class MovingObject
 
 
 		}
-		UnityEngine.Debug.Log("XVel="+x_Velocity);
+		// UnityEngine.Debug.Log("XVel="+x_Velocity);
 
 	}
 
@@ -337,18 +363,18 @@ public class MovingObject
 
 	public void Calculate_AimRotation()
 	{
+		Vector2 corrected_Aim= aim_Target- ( position + new Vector2(0,1.2f));
 		//Create a Triangle
-		float angle= Mathf.Atan( aim_Target.y/ aim_Target.x ) * 180/Mathf.PI;
+		float angle= Mathf.Atan( corrected_Aim.y/ corrected_Aim.x ) * 180/Mathf.PI;
 		// Debug.Log("Direct:"+ aim_Target);
 		// Debug.Log("Angle="+ (angle));
-		if(aim_Target.x>0)
+		if(corrected_Aim.x>0)
 		{
 			animController.SetFloat("Aim", angle/90 );
 			// Debug.Log("Aim="+ (angle/90));
 
 			//Ensure Correct Rotation
 			go_Model.transform.localScale =new Vector3(1,1,1);// Quaternion.Euler(0,0,0);
-
 		}
 		else
 		{
@@ -357,16 +383,23 @@ public class MovingObject
 
 			//Ensure Correct Rotation
 			go_Model.transform.localScale =new Vector3(-1,1,1);// Quaternion.Euler(0,180,0);
-
 		}
 	}
-
-
 
 
 	public void Set_Aim(Vector2 target)
 	{
 		aim_Target= target;
+	}
+
+
+	public void Fire()
+	{
+		//Find Particle_Launcher Prefab
+		Vector2 dir = Vector3.Normalize(aim_Target- (Vector2)p_Launcher.transform.position);
+		gun.Fire(p_Launcher.transform.position, dir );
+		UnityEngine.Debug.DrawLine(p_Launcher.transform.position, dir*20, Color.yellow, 10);
+
 	}
 	
 }

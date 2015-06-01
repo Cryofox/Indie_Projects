@@ -11,6 +11,8 @@ public class Controller : MonoBehaviour {
 		this.mob=mob;
 		Debug.Log("Moving Object  Linked");
 		camFocus = GameObject.Find("Camera_Focus");		
+
+		Invoke("SetCustomCursor",0.01f);  
 	}
 
 	// Update is called once per frame
@@ -33,11 +35,17 @@ public class Controller : MonoBehaviour {
 			mob.Move_LimitJump();
 		}
 
+		if(Input.GetKeyDown(KeyCode.Mouse0))
+		{
+			mob.Fire();
+		}
+
 		//Need to get Coordinates in reference to Player.
 
 		GetWorldPosition();
 		//Now to calculate direction.
-		mob.Set_Aim( mousePosition- (mob.position+ new Vector2(0,1.2f)) );
+		// mob.Set_Aim( mousePosition- (mob.position+ new Vector2(0,1.2f)) );
+		mob.Set_Aim(mousePosition);
 		camFocus.transform.position = mob.position;
 	}
 
@@ -52,9 +60,9 @@ public class Controller : MonoBehaviour {
 
 		//Get Distance from Origin to Ground based on direction
 
-		float distance = 20;// -(ray.origin.z/ ray.direction.z);
+		float distance =  -(ray.origin.z/ ray.direction.z);
 
-        Debug.DrawRay(ray.origin, ray.direction * distance, Color.yellow);
+        Debug.DrawRay(ray.origin, ray.direction * distance, Color.red);
 		mousePosition=  (ray.origin+ (ray.direction*distance) );
 	    }
 
@@ -65,11 +73,28 @@ public class Controller : MonoBehaviour {
 
 
 
+	
+	public bool ccEnabled = false; 
 
 
 
 
+  	void OnDisable()   
+    {  
+        //Resets the cursor to the default  
+        Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);  
+        //Set the _ccEnabled variable to false  
+        this.ccEnabled = false;  
+    }  
 
+	private void SetCustomCursor()  
+    {  
+        //Replace the 'cursorTexture' with the cursor    
+		Cursor.SetCursor(Resources.Load<Texture2D>("Sprites/AimCursor100x100"),new Vector2(100,100),CursorMode.Auto);
+        Debug.Log("Custom cursor has been set.");  
+        //Set the ccEnabled variable to true  
+        this.ccEnabled = true;  
+    }  
 
 
 

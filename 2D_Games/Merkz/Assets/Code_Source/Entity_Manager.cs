@@ -18,21 +18,20 @@ public static class Entity_Manager
 	public static void Clear_Entities(){}
 
 
-	public static void Update()
+	public static void Update(float timeElapsed)
 	{
-		float timeElapsed= Time.deltaTime;
 
-
-		while(timeElapsed>0)
-		{
-			float timeDif = Mathf.Min(timeElapsed,0.2f);
-			for(int x=0;x<mobs.Count;x++)
-			{
-				mobs[x].Update(timeDif);
-			}
-			timeElapsed-=0.2f;
-		}
-	
+		// while(timeElapsed>0)
+		// {
+		// 	float timeDif = Mathf.Min(timeElapsed,0.2f);
+		// 	for(int x=0;x<mobs.Count;x++)
+		// 	{
+		// 		mobs[x].Update(timeDif);
+		// 	}
+		// 	timeElapsed-=0.2f;
+		// }
+		for(int x=0;x<mobs.Count;x++)
+			mobs[x].Update(timeElapsed);
 	}
 
 }
