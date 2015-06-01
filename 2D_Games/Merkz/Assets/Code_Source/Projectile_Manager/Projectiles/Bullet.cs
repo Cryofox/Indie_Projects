@@ -31,7 +31,7 @@ public class Bullet:Projectile {
 		this.position = origin;
 		this.direction= direction;
 
-		// go_Projectile.transform.position=origin;
+		go_Projectile.transform.position=origin;
 		//Now to Rotate
 		// go_Projectile.transform.rotation = Quaternion.LookRotation(direction,new Vector3(0,0,1));
 		// go_Projectile.transform.LookAt(direction, Vector3.forward);	
@@ -73,8 +73,11 @@ public class Bullet:Projectile {
 			Check_Collision(position, newPosition);
 
 						// Debug.Log("Updating Proj");
-			position=newPosition;
-			go_Projectile.transform.position= position;
+			if(!deathFlag)
+			{
+				position=newPosition;
+				go_Projectile.transform.position= position;
+			}
 		}
 	}
 

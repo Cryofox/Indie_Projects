@@ -398,7 +398,7 @@ public class MovingObject
 		//Find Particle_Launcher Prefab
 		Vector2 dir = Vector3.Normalize(aim_Target- (Vector2)p_Launcher.transform.position);
 		gun.Fire(p_Launcher.transform.position, dir );
-		UnityEngine.Debug.DrawLine(p_Launcher.transform.position, dir*20, Color.yellow, 10);
+		// UnityEngine.Debug.DrawLine(p_Launcher.transform.position, dir*20, Color.yellow, 10);
 
 	}
 	
