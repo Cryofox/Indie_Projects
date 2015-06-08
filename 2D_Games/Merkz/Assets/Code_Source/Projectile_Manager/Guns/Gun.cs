@@ -11,7 +11,7 @@ public class Gun {
 
 	public virtual void Fire(Vector2 origin, Vector2 direction)
 	{
-		UnityEngine.Debug.Log("Firing Projectile");
+		// UnityEngine.Debug.Log("Firing Projectile");
 		//Request Projectile Type:
 		Projectile_Manager.Activate_Projectile("Bullet_1", origin, direction);
 	}

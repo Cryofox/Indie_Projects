@@ -7,7 +7,7 @@ public class MovingObject
 {
 	readonly float _GravityMod 	= 	20;
 	readonly float _MaxSpeed	=	10;
-	readonly float _MaxJumpMod	=	10; //Must be higher than Gravity
+	readonly float _MaxJumpMod	=	15; //Must be higher than Gravity
 	float curJumpForce=0;
 
 	bool usesGravity=true;

@@ -48,8 +48,8 @@ public class Bullet:Projectile {
 			go_Projectile.transform.localScale= new Vector3(-1,1,1);
 
 
-		UnityEngine.Debug.Log("Projectile is now Setup!");
-		UnityEngine.Debug.Log("O="+origin+ "D="+ direction);
+		// UnityEngine.Debug.Log("Projectile is now Setup!");
+		// UnityEngine.Debug.Log("O="+origin+ "D="+ direction);
 
 		animController.SetTrigger("Fire");
 		this.deathFlag=false;
@@ -97,8 +97,6 @@ public class Bullet:Projectile {
 			{
 				deathFlag=true;
 				animController.SetTrigger("Impact");
-				// Debug.DrawLine(edge.point_1, edge.point_2, Color.cyan, 4);
-				// Debug.Log("Edge:"+ edge.point_1+ ","+ edge.point_2);
 			}
 		}
 	}
